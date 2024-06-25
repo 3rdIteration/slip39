@@ -9,6 +9,7 @@
     DOM.passphrase = $("#passphrase");
     DOM.totalShares = $("#total-shares");
     DOM.threshold = $("#threshold");
+    DOM.extendableBackupFlag = $(".extendable-backup-flag");
     DOM.newShares = $("#new-shares");
     DOM.generate = $(".generate");
     DOM.masterSecretError = $("#master-secret-error");
@@ -23,6 +24,7 @@
     DOM.passphrase.on("input", createShares);
     DOM.totalShares.on("input", createShares);
     DOM.threshold.on("input", createShares);
+    DOM.extendableBackupFlag.on("change", createShares);
     DOM.generate.on("click", generateClicked);
     DOM.existingShares.on("input", reconstruct);
     DOM.decrypter.on("input", reconstruct);
@@ -86,6 +88,12 @@
             showThresholdError("Must be greater than 1");
             return;
         }
+        if (DOM.extendableBackupFlag.prop("checked")) {
+            extendableBackupFlag = 1;
+            }
+        else {
+            extendableBackupFlag = 0;
+        }
         let groups = [];
         // for now only one group.
         // in the future this can be more complex.
@@ -100,6 +108,7 @@
             masterSecretBytes, {
             passphrase: DOM.passphrase.val(),
             threshold: threshold,
+            extendableBackupFlag: extendableBackupFlag,
             groups: groups,
         });
         // show in the UI
